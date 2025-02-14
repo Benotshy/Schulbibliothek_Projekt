@@ -1,0 +1,11 @@
+body{
+  background-color: blanchedalmond;
+}
+label, input{
+  margin-top: 10px;
+}
+button{
+  background-color: greenyellow;
+  width: 120px;
+  border-radius: 1px;
+}
