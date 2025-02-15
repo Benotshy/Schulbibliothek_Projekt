@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['user_name'] = $user['first_name'] . " " . $user['last_name'];
             $_SESSION['user_email'] = $user['email'];
+            $_SESSION['role'] = $user['role'];
 
             header("Location: ../views/index.php");
             exit();
