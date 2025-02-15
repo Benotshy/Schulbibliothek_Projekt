@@ -7,7 +7,7 @@ class User {
     $this->db = $pdo;
   }
   public function addUser($first_name, $last_name, $pwd, $email){
-    $stmt = $this->db->prepare("INSERT INTO students (first_name, last_name, pwd, email) VALUES (:first_name, :last_name, :pwd, :email)");
+    $stmt = $this->db->prepare("INSERT INTO users (first_name, last_name, pwd, email) VALUES (:first_name, :last_name, :pwd, :email)");
     $stmt->bindValue(':first_name', $first_name);
     $stmt->bindValue(':last_name', $last_name);
     $stmt->bindValue(':pwd', $pwd);
@@ -15,7 +15,7 @@ class User {
     $stmt->execute();
   }
   public function getUserByEmail($email) {
-    $stmt = $this->db->prepare("SELECT * FROM students WHERE email = :email");
+    $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->bindValue(':email', $email);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch user as an associative array

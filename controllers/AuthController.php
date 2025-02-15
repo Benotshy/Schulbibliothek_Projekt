@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($user) {
         if (password_verify($pwd, $user['pwd'])) {
             // Store user session
-            $_SESSION['user_id'] = $user['id_student'];
+            $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['user_name'] = $user['first_name'] . " " . $user['last_name'];
             $_SESSION['user_email'] = $user['email'];
 
