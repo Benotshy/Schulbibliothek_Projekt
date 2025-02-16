@@ -1,20 +1,21 @@
 <?php
 session_start();
+require '../includes/dbh.inc.php';
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php?error=Please login first");
     exit();
 }
 
-require_once '../includes/dbh.inc.php'; // Database connection
-
-// Get the logged-in user's ID
 $user_id = $_SESSION['user_id'];
 
-// Fetch books that this user has borrowed
-$stmt = $pdo->prepare("SELECT books.title, books.author, books.book_status
+// Fetch books the user has borrowed
+$stmt = $pdo->prepare("SELECT books.id_book, books.title, books.author, emprunts.return_date
                        FROM emprunts
                        JOIN books ON emprunts.id_book = books.id_book
-                       WHERE emprunts.id_user = ?");
+                       WHERE emprunts.id_user = ?
+                       AND emprunts.loan_status = 'BORROWED'
+                       GROUP BY books.id_book;");
 $stmt->execute([$user_id]);
 $borrowed_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -23,7 +24,6 @@ $borrowed_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Borrowed Books</title>
 </head>
 <body>
@@ -31,18 +31,25 @@ $borrowed_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="index.php">🔙 Back to Library</a>
 
     <table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Return Date</th>
+        <th>Action</th>
+    </tr>
+    <?php foreach ($borrowed_books as $book): ?>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Status</th>
+            <td><?= htmlspecialchars($book['title']) ?></td>
+            <td><?= htmlspecialchars($book['author']) ?></td>
+            <td><?= htmlspecialchars($book['return_date']) ?></td>
+            <td>
+                <form action="../controllers/return.php" method="POST">
+                    <input type="hidden" name="return_book_id" value="<?= $book['id_book'] ?>">
+                    <button type="submit">Return</button>
+                </form>
+            </td>
         </tr>
-        <?php foreach ($borrowed_books as $book): ?>
-            <tr>
-                <td><?= htmlspecialchars($book['title']) ?></td>
-                <td><?= htmlspecialchars($book['author']) ?></td>
-                <td><?= htmlspecialchars($book['book_status']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+    <?php endforeach; ?>
+</table>
 </body>
 </html>
