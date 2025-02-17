@@ -1,10 +1,13 @@
 <?php
 session_start();
+
+
 if (!isset($_SESSION['user_id'])) {
   header("Location: login.php?error=Please login first");
   exit();
 }
 require_once '../includes/dbh.inc.php'; // Database connection
+require '../includes/statusUpdate.php';
 
 // Fetch all books
 $stmt = $pdo->prepare("SELECT * FROM books");

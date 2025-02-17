@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_book_id'])) {
     $user_id = $_SESSION['user_id'];
     $book_id = $_POST['return_book_id'];
 
-    // Check if the book is borrowed by the user
-    $stmt = $pdo->prepare("SELECT id_emprunt FROM emprunts WHERE id_user = ? AND id_book = ? AND loan_status = 'borrowed'");
+    // ✅ Step 1: Check if the book is borrowed or overdue by the user
+    $stmt = $pdo->prepare("SELECT id_emprunt FROM emprunts WHERE id_user = ? AND id_book = ? AND loan_status IN ('BORROWED', 'LATE')");
     $stmt->execute([$user_id, $book_id]);
     $borrow_record = $stmt->fetch();
 
@@ -21,18 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_book_id'])) {
         exit();
     }
 
-    // Mark book as returned in emprunts table
-    $stmt = $pdo->prepare("UPDATE emprunts SET return_date = CURRENT_DATE, loan_status = 'available' WHERE id_emprunt = ?");
+    // ✅ Step 2: Mark book as returned in emprunts table
+    $stmt = $pdo->prepare("UPDATE emprunts SET return_date = CURRENT_DATE, loan_status = 'RETURNED' WHERE id_emprunt = ?");
     if (!$stmt->execute([$borrow_record['id_emprunt']])) {
         die("Error updating emprunts: " . implode(", ", $stmt->errorInfo()));
     }
 
-    // Update book status to available in books table
-    $stmt = $pdo->prepare("UPDATE books SET book_status = 'available' WHERE id_book = ? AND book_status = 'borrowed'");
+    // ✅ Step 3: Update book status to available in books table
+    $stmt = $pdo->prepare("UPDATE books SET book_status = 'available' WHERE id_book = ?");
     if (!$stmt->execute([$book_id])) {
         die("Error updating books: " . implode(", ", $stmt->errorInfo()));
     }
 
+    // ✅ Step 4: Redirect user with success message
     header("Location: ../views/index.php?success=Book returned successfully.");
     exit();
 } else {
