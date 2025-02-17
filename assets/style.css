@@ -9,3 +9,13 @@ button{
   width: 120px;
   border-radius: 1px;
 }
+.tooltip {
+  position: absolute;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+}
