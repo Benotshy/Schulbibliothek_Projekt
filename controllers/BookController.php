@@ -7,7 +7,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 require_once '../includes/dbh.inc.php';
 
-// ✅ Fix: Handle Editing a Book (from the pop-up modal) FIRST
+// ✅ New Feature: Handle Book Search
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+if (!empty($search)) {
+    // Search books by title or author
+    $stmt = $pdo->prepare("SELECT * FROM books WHERE title LIKE ? OR author LIKE ?");
+    $stmt->execute(["%$search%", "%$search%"]);
+} else {
+    // Fetch all books if no search term is provided
+    $stmt = $pdo->prepare("SELECT * FROM books");
+    $stmt->execute();
+}
+
+$books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// ✅ Handle Editing a Book
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
     $id = $_POST['id_book'];
     $title = $_POST['title'];
@@ -30,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
     }
 }
 
-// ✅ Handle Adding a Book AFTER the update logic
+// ✅ Handle Adding a Book
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['update_book'])) {
     $title = $_POST['title'];
     $author = $_POST['author'];
@@ -66,4 +81,3 @@ if (isset($_GET['delete'])) {
         die("Error deleting book: " . $e->getMessage());
     }
 }
-?>
