@@ -49,8 +49,6 @@ $totalPages = ceil($totalBooks / $limit);
 ?>
 
 <main class="content">
-  <h2>📚 Library Books</h2>
-
   <form action="index.php" method="GET" class="search-bar">
     <input type="text" name="search" placeholder="Search for books..." value="<?= htmlspecialchars($search) ?>">
     <button type="submit">🔍 Search</button>
@@ -70,7 +68,7 @@ $totalPages = ceil($totalBooks / $limit);
     <?php else: ?>
       <?php foreach ($books as $book): ?>
         <div class="book-card">
-          <img src="../assets/book_covers/<?= htmlspecialchars($book['cover_image']) ?>" alt="Book Cover">
+        <img src="<?= htmlspecialchars($book['cover_image']) ?>" alt="Book Cover">
           <h3><?= htmlspecialchars($book['title']) ?></h3>
           <p><?= htmlspecialchars($book['author']) ?></p>
           <!-- <span class="status <?= $book['book_status'] === 'available' ? 'available' : 'borrowed' ?>">

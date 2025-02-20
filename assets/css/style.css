@@ -1,298 +1,367 @@
 /* ==========================
    General Page Styles
    ========================== */
-   body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #333;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* ==========================
-   Sidebar Styles
-   ========================== */
+     Sidebar Styles
+     ========================== */
 .sidebar {
-    width: 240px;
-    background: #1e1e2d;
-    color: #ffffff;
-    padding: 20px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  width: 260px;
+  background: #f8f9fa; /* Light background */
+  color: #333;
+  padding: 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
 }
 
-.sidebar a {
-    display: block;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-    padding: 10px 0;
-    transition: all 0.3s;
+/* Sidebar Logo */
+.sidebar-logo {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  color: #3f8c76;
 }
 
-.sidebar a:hover {
-    color: #f8f9fa;
-    text-decoration: underline;
+/* Credits Section */
+.credits {
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+  margin-top: 5px;
 }
 
+/* User Profile */
 .user-profile {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin: 20px 0;
 }
 
 .user-profile img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 
-.user-profile p {
-    font-size: 14px;
-    font-weight: 600;
-    color: #f8f9fa;
+.user-profile .user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.sidebar-nav a i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Active link (Dashboard or selected) */
+.sidebar-nav a.active {
+  background: #e0e0e0;
+  color: rgb(0, 0, 0);
+}
+
+/* Hover effect */
+.sidebar-nav a:hover {
+  background: #3f8c76;
+  color: white;
+}
+
+/* Filter Section */
+.filter-section {
+  padding: 15px;
+  background: #eef2f5;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.filter-section label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-section:hover {
+  background: #3f8c76;
+  color: white;
+  cursor: pointer;
+}
+
+.filter-section input {
+  margin-right: 8px;
+}
+
+/* Logout Link */
+.sidebar-nav a.logout {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #dc3545;
+}
+.sidebar-nav a.logout:hover {
+  background: #dc3545;
+  color: white;
 }
 
 /* ==========================
-   Main Content Styles
-   ========================== */
+     Main Content Styles
+     ========================== */
 .content {
-    margin-left: 260px;
-    padding: 40px;
-    width: calc(100% - 260px);
-    max-width: 1200px;
+  margin-left: 260px;
+  padding: 40px;
+  width: calc(100% - 260px);
+  max-width: 1200px;
+  flex: 1;
 }
 
 h2 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 /* ==========================
-   Search Bar
-   ========================== */
+     Search Bar
+     ========================== */
 .search-bar {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .search-bar input {
-    padding: 10px;
-    width: 50%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  padding: 10px;
+  width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .search-bar button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 20px;
+  background: #3f8c76;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 20px;
 }
 
 /* ==========================
-   Book Cards (Grid View)
-   ========================== */
+     Book Cards (Grid View)
+     ========================== */
 /* ==========================
-   Book Display Styles (Index Page)
-   ========================== */
-
-   .book-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
+     Book Display Styles (Index Page)
+     ========================== */
+.book-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
 }
-
-
 
 .book-card:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .book-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 4px;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.6);
 }
 
 .book-card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 10px 0;
 }
 
 .book-card p {
-    font-size: 14px;
-    color: #666;
+  font-size: 14px;
+  color: #666;
 }
 
 /* ==========================
-   Borrow Button & Status Styling
-   ========================== */
+     Borrow Button & Status Styling
+     ========================== */
 .borrow-btn {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background 0.3s ease-in-out;
+  background: #3f8c76;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background 0.3s ease-in-out;
 }
 
 .borrow-btn:hover {
-    background: #218838;
+  background: #3f8c76;
 }
 
-/* Hover effect to change "Available" to "Borrow" */
-.borrow-btn[data-status='available']::after {
-    content: "Borrow";
+.borrow-btn[data-status="available"]::after {
+  content: "Borrow";
 }
 
-.borrow-btn[data-status='available']:hover::after {
-    content: "Borrow Now";
+.borrow-btn[data-status="available"]:hover::after {
+  content: "Borrow Now";
 }
 
 /* ==========================
-   Borrow Confirmation Popup
-   ========================== */
-   .book-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    padding: 40px;
+     Borrow Confirmation Popup
+     ========================== */
+.book-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 40px;
 }
-
-
 
 .book-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.book-card img {
-    width: 100%;
-    height: 340px;
-    object-fit: cover;
-    border-radius: 6px;
-}
 
 .book-card h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 12px 0;
 }
 
 .book-card p {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
 }
 
 /* ==========================
-   Borrow Button & Hover Effect
-   ========================== */
+     Borrow Button & Hover Effect
+     ========================== */
 .borrow-btn {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 12px;
-    cursor: pointer;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: background 0.3s ease-in-out;
-    position: relative;
-    overflow: hidden;
+  background: #3f8c76;
+  color: white;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: background 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
 }
 
 .borrow-btn:hover {
-    background: #218838;
+  background: #3f8c76;
 }
 
-.borrow-btn[data-status='available']::after {
-    content: "Available";
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 0;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.3s ease-in-out;
+.borrow-btn[data-status="available"]::after {
+  content: "Available";
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease-in-out;
 }
 
-.borrow-btn[data-status='available']:hover::after {
-    content: "Borrow";
+.borrow-btn[data-status="available"]:hover::after {
+  content: "Borrow";
 }
 
 /* ==========================
-   Borrow Confirmation Popup
-   ========================== */
-   .book-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 40px;
+     Borrow Confirmation Popup (Book Cards)
+     ========================== */
+.book-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 40px;
 }
 
 .book-card {
-    /* background: white; */
-    padding: 15px;
-    border-radius: 0px;
-    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 230px;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 15px;
+  border-radius: 0px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 230px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .book-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
-.book-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 6px;
-}
+
 
 .book-card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 8px;
 }
 
 .book-card p {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 35px;
-    margin-top: -12px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 35px;
+  margin-top: -12px;
 }
+
 /* Default Available Button */
 .available-btn {
   background: #28a745;
@@ -308,7 +377,6 @@ h2 {
   overflow: hidden;
 }
 
-/* Change Text on Hover ONLY if Available */
 .available-btn::after {
   content: "Available";
   display: block;
@@ -331,97 +399,96 @@ h2 {
   width: 100%;
   cursor: not-allowed;
   opacity: 0.7;
-  margin-bottom: 14px;
 }
 
-
 /* ==========================
-   Borrow Button & Hover Effect
-   ========================== */
+     Borrow Button & Hover Effect (Alternate)
+     ========================== */
 .borrow-btn {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: background 0.3s ease-in-out;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
+  background: #3f8c76;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.3s ease-in-out;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-.borrow-btn[data-status='available']::after {
-    content: "Available";
-    display: block;
-    text-align: center;
-    transition: opacity 0.3s ease-in-out;
+.borrow-btn[data-status="available"]::after {
+  content: "Available";
+  display: block;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
 }
 
-.borrow-btn[data-status='available']:hover::after {
-    content: "Borrow";
+.borrow-btn[data-status="available"]:hover::after {
+  content: "Borrow";
 }
 
-.borrow-btn[data-status='borrowed'] {
-    background: #dc3545;
-    cursor: not-allowed;
+.borrow-btn[data-status="borrowed"] {
+  background: #dc3545;
+  cursor: not-allowed;
 }
 
-.borrow-btn[data-status='borrowed']::after {
-    content: "Unavailable";
+.borrow-btn[data-status="borrowed"]::after {
+  content: "Unavailable";
 }
 
 /* ==========================
-   Pagination
-   ========================== */
+     Pagination
+     ========================== */
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    gap: 10px;
-    padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+  padding-bottom: 20px;
 }
 
 .pagination a {
-    text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    background: #e0e0e0;
-    color: #333;
-    font-size: 14px;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  color: #333;
+  font-size: 14px;
 }
 
 .pagination a:hover {
-    background: #007bff;
-    color: white;
+  background: #3f8c76;
+  color: white;
+  transition: 0.5s ease-in-out;
 }
 
 .pagination span {
-    font-size: 14px;
-    font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* ==========================
-   Footer Styles
-   ========================== */
-   .footer {
-    width: 100%;
-    background: #1e1e2d73;
-    color: white;
-    text-align: center;
-    padding-bottom: 22px;
-    position: fixed;
-    height: 15px;
-    bottom: 0;
-    font-size: 14px; /* Optional: Adjust font size if needed */
+     Footer Styles
+     ========================== */
+.footer {
+  width: 100%;
+  background: #3f8c76;
+  color: white;
+  text-align: center;
+  height: 40px;
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  margin-top: auto;
+  z-index: -1;
+  /* margin-left: 75px; */
 }
 
-
-/* /POPUP CSS/
- */
- .borrow-popup {
+/* POPUP CSS */
+.borrow-popup {
   display: none;
   position: fixed;
   top: 50%;
@@ -460,7 +527,7 @@ h2 {
 }
 
 #confirm-borrow {
-  background: #007bff;
+  background: #3f8c76;
   color: white;
 }
 
@@ -470,8 +537,8 @@ h2 {
 }
 
 /* ==========================
- Overlay for Popup
- ========================== */
+   Overlay for Popup
+   ========================== */
 .borrow-overlay {
   display: none;
   position: fixed;

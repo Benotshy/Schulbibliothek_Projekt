@@ -3,26 +3,23 @@ session_start();
 require_once '../includes/dbh.inc.php';
 require_once '../models/User.php';
 
-// ✅ Ensure Only Admins Can Access
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../views/index.php?error=Access Denied");
-    exit();
-}
-
-// ✅ Handle User Registration
 if (isset($_POST['submit'])) {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['pwd'], PASSWORD_DEFAULT); // Secure password storage
+    require_once '../models/User.php';
+
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $email = trim($_POST['email']);
+    $password = password_hash($_POST['pwd'], PASSWORD_DEFAULT); // Secure password
 
     try {
         $user = new User($pdo);
         $user->addUser($first_name, $last_name, $password, $email);
+
+        // ✅ Redirect to login page after successful registration
         header("Location: ../views/login.php?success=User created successfully.");
         exit();
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("Location: ../views/login.php?error=Error: " . urlencode($e->getMessage()));
         exit();
     }
 }

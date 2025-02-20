@@ -1,0 +1,80 @@
+/* ==========================
+   User Management Page Styles
+   ========================== */
+   .content {
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+    max-width: 1200px;
+    flex: 1;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  /* ==========================
+     Table Styling
+     ========================== */
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .users-table th, .users-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .users-table th {
+    background: #3f8c76;
+    color: white;
+    font-weight: bold;
+  }
+
+  .users-table tr:hover {
+    background: #f5f5f5;
+  }
+
+  /* ==========================
+     Borrowed Books Tooltip
+     ========================== */
+  .borrowed-books {
+    color: #3f8c76;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .borrowed-books:hover::after {
+    content: attr(data-books);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #3f8c76;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ==========================
+     Delete Button Styling
+     ========================== */
+  .users-table a {
+    color: #d9534f;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .users-table a:hover {
+    color: #c9302c;
+  }
