@@ -37,7 +37,7 @@ $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get total book count for pagination
+// For counting the total books (logic of pagination)
 $countQuery = "SELECT COUNT(*) FROM books";
 if (!empty($conditions)) {
   $countQuery .= " WHERE " . implode(" AND ", $conditions);
@@ -61,7 +61,6 @@ $totalPages = ceil($totalBooks / $limit);
         </label>
     </div> -->
 
-  <!-- Book Grid Display -->
   <div class="book-container">
     <?php if (empty($books)): ?>
       <p>No books found.</p>
@@ -86,8 +85,6 @@ $totalPages = ceil($totalBooks / $limit);
       <?php endforeach; ?>
     <?php endif; ?>
   </div>
-
-  <!-- Pagination -->
   <div class="pagination">
     <?php if ($page > 1): ?>
       <a href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>&available=<?= $filterAvailable ? 'true' : '' ?>"

@@ -3,6 +3,9 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 ?>
+<?php
+$current_page = basename($_SERVER['PHP_SELF']); // Get the current file name
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,12 +42,18 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <!-- Navigation Links (Role-Based) -->
     <nav class="sidebar-nav">
-      <a href="index.php" class="active"><i class='bx bx-home'></i> Dashboard</a>
+      <a href="index.php" class="<?= $current_page == 'index.php' ? 'active' : '' ?>">
+        <i class='bx bx-home'></i> Dashboard
+      </a>
 
       <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
         <!-- Admin Features -->
-        <a href="manage_books.php"><i class='bx bx-book'></i> Manage Books</a>
-        <a href="users.php"><i class='bx bx-user'></i> Manage Users</a>
+        <a href="manage_books.php" class="<?= $current_page == 'manage_books.php' ? 'active' : '' ?>">
+          <i class='bx bx-book'></i> Manage Books
+        </a>
+        <a href="users.php" class="<?= $current_page == 'users.php' ? 'active' : '' ?>">
+          <i class='bx bx-user'></i> Manage Users
+        </a>
         <div class="filter-section">
           <label>
             <input type="checkbox" id="availableFilter"> Show Available Books
@@ -52,7 +61,9 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
       <?php } else { ?>
         <!-- User Features -->
-        <a href="borrowed.php"><i class='bx bxs-book'></i> My Borrowed Books</a>
+        <a href="borrowed.php" class="<?= $current_page == 'borrowed.php' ? 'active' : '' ?>">
+          <i class='bx bxs-book'></i> My Borrowed Books
+        </a>
       <?php } ?>
 
       <!-- Filter Section (For Users) -->
@@ -65,10 +76,8 @@ if (session_status() == PHP_SESSION_NONE) {
       <?php } ?>
 
       <!-- Logout Button -->
-      <a href="../controllers/Logout.php" class="logout"><i class='bx bx-log-out'></i> Logout</a>
+      <a href="../controllers/Logout.php" class="logout">
+        <i class='bx bx-log-out'></i> Logout
+      </a>
     </nav>
   </aside>
-
-</body>
-
-</html>
