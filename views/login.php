@@ -15,7 +15,7 @@
   <div class="container">
     <div class="form-box login">
       <form action="../controllers/AuthController.php" method="POST">
-        <h1>login</h1>
+        <h1>Login</h1>
         <div class="input-box">
           <!-- <label for="email">Enter your email:</label> -->
           <input type="text" id="email" name="email" placeholder="youremail@gmail.com" required>
@@ -30,13 +30,7 @@
           <a href="#">Forgot password?</a>
         </div>
         <button type="submit" class="btn">Login</button>
-        <p>or login with social platforms</p>
-        <div class="social-icons">
-          <a href="#"><i class='bx bxl-facebook-circle'></i></a>
-          <a href="#"><i class='bx bxl-google'></i></a>
-          <a href="#"><i class='bx bxl-github'></i></a>
-          <a href="#"><i class='bx bxl-linkedin'></i></a>
-        </div>
+        <p>Nothing better than the feeling of finishing a book :D !</p>
       </form>
     </div>
     <div class="form-box register">
