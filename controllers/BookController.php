@@ -22,20 +22,29 @@ if (!empty($search)) {
 
 $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ Handle Editing a Book (Fix for Duplicate Issue)
+// ✅ Handle Editing a Book (Prevent Duplicate Issue)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
   $id = $_POST['id_book'];
   $title = $_POST['title'];
   $author = $_POST['author'];
   $book_status = $_POST['book_status'];
 
-  if (empty($title) || empty($author)) {
+  if (empty($id) || empty($title) || empty($author)) {
     header("Location: ../views/manage_books.php?error=All fields are required");
     exit();
   }
 
   try {
-    // 🛠 FIX: Ensure UPDATE instead of INSERT (prevent duplicate issue)
+    // 🔍 Check if Book Exists Before Updating
+    $checkStmt = $pdo->prepare("SELECT id_book FROM books WHERE id_book = ?");
+    $checkStmt->execute([$id]);
+
+    if ($checkStmt->rowCount() == 0) {
+      header("Location: ../views/manage_books.php?error=Book not found");
+      exit();
+    }
+
+    // 🛠 FIX: Properly Update the Book Instead of Inserting a New One
     $stmt = $pdo->prepare("UPDATE books SET title = ?, author = ?, book_status = ? WHERE id_book = ?");
     $stmt->execute([$title, $author, $book_status, $id]);
 
@@ -46,7 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
   }
 }
 
-// ✅ Handle Adding a Book
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['update_book'])) {
   $title = $_POST['title'];
   $author = $_POST['author'];
@@ -68,30 +78,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['update_book'])) {
   }
 }
 
-// ✅ Handle Deleting a Book (Fixed)
-if (isset($_GET['delete'])) {
-  $user_id = $_GET['delete'];
+
+
+if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+  $book_id = $_GET['delete']; // ✅ Make sure we are using the correct variable
 
   try {
-    // 🔍 Check if the user has borrowed books
-    $stmt = $pdo->prepare("SELECT COUNT(*) AS borrowed_count FROM emprunts WHERE id_user = ? AND loan_status = 'BORROWED'");
-    $stmt->execute([$user_id]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    // 🔍 Check if the book is currently borrowed
+    $stmt = $pdo->prepare("SELECT book_status FROM books WHERE id_book = ?");
+    $stmt->execute([$book_id]);
+    $book = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result['borrowed_count'] > 0) {
-      // ❌ Cannot delete users with borrowed books (Redirect with error)
-      header("Location: ../views/users.php?message=User cannot be deleted! They have borrowed books.&type=error");
+    if ($book && $book['book_status'] == 'borrowed') {
+      // ❌ Cannot delete borrowed books (Redirect with error)
+      header("Location: ../views/manage_books.php?message=Cannot delete a borrowed book.&type=error");
       exit();
     } else {
-      // ✅ Proceed with user deletion
-      $stmt = $pdo->prepare("DELETE FROM users WHERE id_user = ?");
-      $stmt->execute([$user_id]);
+      // ✅ Proceed with book deletion
+      $stmt = $pdo->prepare("DELETE FROM books WHERE id_book = ?");
+      $stmt->execute([$book_id]);
 
-      header("Location: ../views/users.php?message=User deleted successfully.&type=success");
+      header("Location: ../views/manage_books.php?message=Book deleted successfully.&type=success");
       exit();
     }
   } catch (PDOException $e) {
-    header("Location: ../views/users.php?message=Error deleting user.&type=error");
+    header("Location: ../views/manage_books.php?message=Error deleting book.&type=error");
     exit();
   }
 }

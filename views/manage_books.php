@@ -116,13 +116,14 @@ $totalPages = ceil($totalBooks / $limit);
   </div>
 </div>
 
-<!-- Edit Book Modal -->
 <div id="editModal" class="modal hidden">
   <div class="modal-content">
     <span class="close" onclick="closeEditModal()">&times;</span>
     <h3>Edit Book</h3>
     <form action="../controllers/BookController.php" method="POST">
       <input type="hidden" id="edit_id" name="id_book">
+      <input type="hidden" name="update_book" value="1"> <!-- ✅ Ensures Controller Detects Edit -->
+
       <label>Title:</label>
       <input type="text" id="edit_title" name="title" required>
       <label>Author:</label>
@@ -136,6 +137,7 @@ $totalPages = ceil($totalBooks / $limit);
     </form>
   </div>
 </div>
+
 
 
 <script>

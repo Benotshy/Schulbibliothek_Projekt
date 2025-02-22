@@ -46,35 +46,48 @@
   /* ==========================
      Borrowed Books Tooltip
      ========================== */
-  .borrowed-books {
-    color: #3f8c76;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-  }
+     .borrowed-books {
+      color: #3f8c76;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      z-index: 5; /* Ensure it's positioned correctly in the document flow */
+    }
 
-  .borrowed-books:hover::after {
-    content: attr(data-books);
-    position: absolute;
-    left: 0;
-    top: 100%;
-    background: #3f8c76;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  }
+    .borrowed-books:hover::after {
+      content: attr(data-books);
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background: #3f8c76;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 9999; /* High z-index to ensure it shows above all other elements */
+      transition: opacity 0.2s ease-in-out; /* Smooth fade in/out */
+      opacity: 1; /* Initially visible */
+    }
 
-  /* ==========================
-     Delete Button Styling
-     ========================== */
-  .users-table a {
-    color: #d9534f;
-    text-decoration: none;
-    font-weight: bold;
-  }
+    .borrowed-books:hover::after {
+      opacity: 1; /* On hover, ensure it's visible */
+    }
 
-  .users-table a:hover {
-    color: #c9302c;
-  }
+    .borrowed-books:focus::after {
+      opacity: 1; /* Ensures visibility on focus (useful for accessibility) */
+    }
+
+    /* ==========================
+       Delete Button Styling
+       ========================== */
+    .users-table a {
+      color: #d9534f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .users-table a:hover {
+      color: #c9302c;
+    }
+
