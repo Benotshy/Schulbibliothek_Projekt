@@ -9,22 +9,21 @@ if (isset($_POST['submit'])) {
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
-    $password = password_hash($_POST['pwd'], PASSWORD_DEFAULT); // Secure password
+    $password = password_hash($_POST['pwd'], PASSWORD_DEFAULT);
 
     try {
         $user = new User($pdo);
         $user->addUser($first_name, $last_name, $password, $email);
 
-        // ✅ Redirect to login page after successful registration
         header("Location: ../views/login.php?success=User created successfully.");
         exit();
     } catch (PDOException $e) {
-        header("Location: ../views/login.php?error=Error: " . urlencode($e->getMessage()));
+        header("Location: ../views/login.php?error=Error: " . urlencode($e->getMessage())); //encodes the error message so it can be safely passed in a URL
         exit();
     }
 }
 
-// ✅ Handle User Deletion
+
 if (isset($_GET['delete'])) {
     $user_id = $_GET['delete'];
 

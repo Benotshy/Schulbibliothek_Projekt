@@ -116,6 +116,7 @@ $totalPages = ceil($totalBooks / $limit);
   </div>
 </div>
 
+
 <div id="editModal" class="modal hidden">
   <div class="modal-content">
     <span class="close" onclick="closeEditModal()">&times;</span>

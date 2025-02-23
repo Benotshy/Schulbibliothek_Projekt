@@ -1,6 +1,6 @@
 <?php
 // ob_start();
-session_start(); // Start session at the top
+session_start();
 
 require_once '../includes/dbh.inc.php';
 require_once '../models/User.php';
@@ -12,20 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $userModel = new User($pdo);
     $user = $userModel->getUserByEmail($email);
-
-    // if ($user) {
-    //   echo "Entered Password: " . $pwd . "<br>";
-    //   echo "Stored Hashed Password: " . $user['pwd'] . "<br>";
-
-    //   if (password_verify($pwd, $user['pwd'])) {
-    //       echo "Password Matched!";
-    //   } else {
-    //       echo "Password Does NOT Match!";
-    //   }
-    //   exit();
-    // } else {
-    //   die("User not found!");
-    // }
     if ($user) {
         if (password_verify($pwd, $user['pwd'])) {
             // Store user session

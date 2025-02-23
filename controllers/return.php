@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_book_id'])) {
     $book_id = $_POST['return_book_id'];
 
     // ✅ Step 1: Check if the book is borrowed or overdue by the user
-    $stmt = $pdo->prepare("SELECT id_emprunt FROM emprunts WHERE id_user = ? AND id_book = ? AND loan_status IN ('BORROWED', 'LATE')");
+    $stmt = $pdo->prepare("SELECT id_emprunt FROM emprunts WHERE id_user = ? AND id_book = ? AND loan_status IN ('BORROWED', 'OVERDUE')");
     $stmt->execute([$user_id, $book_id]);
     $borrow_record = $stmt->fetch();
 
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_book_id'])) {
     // ✅ Step 2: Mark book as returned in emprunts table
     $stmt = $pdo->prepare("UPDATE emprunts SET return_date = CURRENT_DATE, loan_status = 'RETURNED' WHERE id_emprunt = ?");
     if (!$stmt->execute([$borrow_record['id_emprunt']])) {
-        die("Error updating emprunts: " . implode(", ", $stmt->errorInfo()));
+        die("Error updating emprunts: " . implode(", ", $stmt->errorInfo())); // Converts the array into a comma-separated string.
     }
 
     // ✅ Step 3: Update book status to available in books table

@@ -20,7 +20,7 @@ $query = "
     FROM emprunts
     JOIN books ON emprunts.id_book = books.id_book
     WHERE emprunts.id_user = ?
-    AND emprunts.loan_status IN ('BORROWED', 'LATE')
+    AND emprunts.loan_status IN ('BORROWED', 'OVERDUE')
     GROUP BY books.id_book
     LIMIT $limit OFFSET $offset"; // ✅ Fixing the LIMIT & OFFSET issue
 $stmt = $pdo->prepare($query);
@@ -30,7 +30,7 @@ $borrowed_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // ✅ Count total borrowed books for pagination
 $countStmt = $pdo->prepare("
     SELECT COUNT(*) FROM emprunts
-    WHERE id_user = ? AND loan_status IN ('BORROWED', 'LATE')
+    WHERE id_user = ? AND loan_status IN ('BORROWED', 'OVERDUE')
 ");
 $countStmt->execute([$user_id]);
 $totalBooks = $countStmt->fetchColumn();
@@ -60,11 +60,11 @@ $totalPages = ceil($totalBooks / $limit);
                     <td><?= htmlspecialchars($book['title']) ?></td>
                     <td><?= htmlspecialchars($book['author']) ?></td>
                     <td><?= htmlspecialchars($book['return_date']) ?></td>
-                    <td class="<?= $book['loan_status'] === 'LATE' ? 'late' : 'borrowed' ?>">
+                    <td class="<?= $book['loan_status'] === 'OVERDUE' ? 'overdue' : 'borrowed' ?>">
                         <?= htmlspecialchars($book['loan_status']) ?>
                     </td>
                     <td>
-                        <?php if ($book['loan_status'] === 'LATE' || $book['loan_status'] === 'BORROWED'): ?>
+                        <?php if ($book['loan_status'] === 'OVERDUE' || $book['loan_status'] === 'BORROWED'): ?>
                             <button class="return-btn" onclick="openReturnModal(<?= $book['id_book'] ?>)">Return</button>
                         <?php else: ?>
                             No action available
