@@ -99,3 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("Borrow popup script initialized successfully.");
 });
+
+
+

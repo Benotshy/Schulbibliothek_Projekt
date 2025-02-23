@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-$current_page = basename($_SERVER['PHP_SELF']); //for geting the current page name
+$current_page = basename($_SERVER['PHP_SELF']); // Get the current page name
 
 $profile_picture = "../assets/img/user_img.jpg";
 if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
@@ -13,6 +13,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,26 +50,30 @@ if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
         <a href="users.php" class="<?= $current_page == 'users.php' ? 'active' : '' ?>">
           <i class='bx bx-user'></i> Manage Users
         </a>
-        <div class="filter-section">
-          <label>
-            <input type="checkbox" id="availableFilter"> Show Available Books
-          </label>
-        </div>
-      <?php } else { ?>
+      <?php } elseif (isset($_SESSION['role'])) { ?>
         <a href="borrowed.php" class="<?= $current_page == 'borrowed.php' ? 'active' : '' ?>">
           <i class='bx bxs-book'></i> My Borrowed Books
         </a>
       <?php } ?>
 
-      <?php if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') { ?>
-        <div class="filter-section">
-          <label>
-            <input type="checkbox" id="availableFilter"> Show Available Books
-          </label>
-        </div>
+
+      <?php if (!isset($_SESSION['user_id'])): ?>
+        <a href="login.php" class="<?= $current_page == 'login.php' ? 'active' : '' ?>">
+          <i class='bx bx-log-in'></i> Log in
+        </a>
+      <?php endif; ?>
+      <div class="filter-section">
+        <label>
+          <input type="checkbox" id="availableFilter"> Show Available Books
+        </label>
+      </div>
+
+
+
+      <?php if (isset($_SESSION['role'])) { ?>
+        <a href="../controllers/Logout.php" class="logout">
+          <i class='bx bx-log-out'></i> Logout
+        </a>
       <?php } ?>
-      <a href="../controllers/Logout.php" class="logout">
-        <i class='bx bx-log-out'></i> Logout
-      </a>
     </nav>
   </aside>

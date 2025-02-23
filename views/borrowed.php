@@ -48,7 +48,7 @@ $totalPages = ceil($totalBooks / $limit);
         <tr>
             <th>Title</th>
             <th>Author</th>
-            <th>Return Date</th>
+            <th>Due Date ⏳</th>
             <th>Status</th>
             <th>Action</th>
         </tr>

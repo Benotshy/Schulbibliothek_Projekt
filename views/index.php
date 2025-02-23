@@ -5,6 +5,8 @@ include 'partials/sidebar.php'; // ✅ Sidebar already contains <html>, <head>, 
 require_once '../includes/dbh.inc.php';
 require '../includes/statusUpdate.php';
 
+$isLoggedIn = isset($_SESSION['user_id']); // Check if the user is logged in
+
 // ✅ Handle pagination
 $limit = 8; // Number of books per page
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
@@ -22,17 +24,17 @@ $conditions = [];
 $params = [];
 
 if (!empty($search)) {
-    $conditions[] = "(books.title LIKE ? OR books.author LIKE ?)";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
+  $conditions[] = "(books.title LIKE ? OR books.author LIKE ?)";
+  $params[] = "%$search%";
+  $params[] = "%$search%";
 }
 
 if ($filterAvailable) {
-    $conditions[] = "books.book_status = 'available'";
+  $conditions[] = "books.book_status = 'available'";
 }
 
 if (!empty($conditions)) {
-    $query .= " WHERE " . implode(" AND ", $conditions);
+  $query .= " WHERE " . implode(" AND ", $conditions);
 }
 
 // ✅ Fix: ORDER BY comes after WHERE clause, ensuring proper SQL execution
@@ -44,7 +46,7 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // ✅ Count total books for pagination
 $countQuery = "SELECT COUNT(*) FROM books";
 if (!empty($conditions)) {
-    $countQuery .= " WHERE " . implode(" AND ", $conditions);
+  $countQuery .= " WHERE " . implode(" AND ", $conditions);
 }
 $countStmt = $pdo->prepare($countQuery);
 $countStmt->execute($params);
@@ -57,14 +59,22 @@ $totalPages = ceil($totalBooks / $limit);
     <input type="text" name="search" placeholder="Search for books..." value="<?= htmlspecialchars($search) ?>">
     <button type="submit">🔍 Search</button>
   </form>
-
+  <div class="guest-guide">
+    <?php if (!isset($_SESSION['user_id'])): ?>
+      <a href="login.php">
+        <p>📚 Want to borrow a book? 🔑 Log in to your account first!</p>
+      </a>
+    <?php endif; ?>
+  </div>
   <div class="book-container">
     <?php if (empty($books)): ?>
       <p>No books found.</p>
     <?php else: ?>
       <?php foreach ($books as $book): ?>
         <div class="book-card">
-          <img src="<?= htmlspecialchars($book['cover_image']) ?>" alt="Book Cover">
+          <img
+            src="<?= strpos($book['cover_image'], 'http') === 0 ? htmlspecialchars($book['cover_image']) : 'http://' . $_SERVER['HTTP_HOST'] . '/Schulbibliothek_Projekt/' . htmlspecialchars($book['cover_image']) ?>"
+            alt="Book Cover">
           <h3><?= htmlspecialchars($book['title']) ?></h3>
           <p><?= htmlspecialchars($book['author']) ?></p>
 
@@ -75,11 +85,16 @@ $totalPages = ceil($totalBooks / $limit);
           <?php elseif ($book['loan_status'] == 'BORROWED'): ?>
             <button class="borrowed-btn" disabled>Borrowed</button>
           <?php else: ?>
-            <span class="status available">Available</span>
-            <form action="../controllers/BorrowController.php" method="POST">
-              <input type="hidden" name="book_id" value="<?= $book['id_book'] ?>">
-              <button type="submit" class="borrow-btn available-btn"></button>
-            </form>
+            <?php if (!$isLoggedIn): ?>
+              <button type="button" class="borrow-btn available-btn" onclick="redirectToLogin()"></button>
+            <?php else: ?>
+              <!-- ✅ Logged-in Users: Show Confirmation Before Borrowing -->
+              <form action="../controllers/BorrowController.php" method="POST"
+                onsubmit="return confirm('Are you sure you want to borrow this book?');">
+                <input type="hidden" name="book_id" value="<?= $book['id_book'] ?>">
+                <button type="submit" class="borrow-btn available-btn"></button>
+              </form>
+            <?php endif; ?>
           <?php endif; ?>
         </div>
       <?php endforeach; ?>
@@ -87,18 +102,26 @@ $totalPages = ceil($totalBooks / $limit);
   </div>
   <div class="pagination">
     <?php if ($page > 1): ?>
-      <a href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>&available=<?= $filterAvailable ? 'true' : '' ?>" class="prev">← Previous</a>
+      <a href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>&available=<?= $filterAvailable ? 'true' : '' ?>"
+        class="prev">← Previous</a>
     <?php endif; ?>
 
     <span>Page <?= $page ?> of <?= $totalPages ?></span>
 
     <?php if ($page < $totalPages): ?>
-      <a href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>&available=<?= $filterAvailable ? 'true' : '' ?>" class="next">Next →</a>
+      <a href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>&available=<?= $filterAvailable ? 'true' : '' ?>"
+        class="next">Next →</a>
     <?php endif; ?>
   </div>
 </main>
 
 <script src="../assets/js/filter.js"></script>
 <script src="../assets/js/main.js"></script>
+<script>
+  function redirectToLogin() {
+    alert("You need to log in to borrow a book.");
+    window.location.href = "login.php";
+  }
+</script>
 
 <?php include 'partials/footer.php'; ?>

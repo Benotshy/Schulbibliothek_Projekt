@@ -23,7 +23,6 @@ if (isset($_POST['submit'])) {
     }
 }
 
-
 if (isset($_GET['delete'])) {
     $user_id = $_GET['delete'];
 

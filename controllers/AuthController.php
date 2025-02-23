@@ -5,7 +5,6 @@ session_start();
 require_once '../includes/dbh.inc.php';
 require_once '../models/User.php';
 
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $pwd = $_POST['pwd'];
