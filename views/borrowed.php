@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'partials/sidebar.php'; // ✅ Sidebar already contains <html>, <head>, <body>
+include 'partials/sidebar.php';
 require '../includes/dbh.inc.php';
 require '../includes/statusUpdate.php';
 
@@ -10,11 +10,11 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$limit = 8; // Books per page
+$limit = 8;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// ✅ Fetch borrowed books (with pagination)
+//fetch borrowed books (with pagination)
 $query = "
     SELECT books.id_book, books.title, books.author, emprunts.return_date, emprunts.loan_status
     FROM emprunts
@@ -22,12 +22,12 @@ $query = "
     WHERE emprunts.id_user = ?
     AND emprunts.loan_status IN ('BORROWED', 'OVERDUE')
     GROUP BY books.id_book
-    LIMIT $limit OFFSET $offset"; // ✅ Fixing the LIMIT & OFFSET issue
+    LIMIT $limit OFFSET $offset";
 $stmt = $pdo->prepare($query);
 $stmt->execute([$user_id]);
 $borrowed_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ Count total borrowed books for pagination
+// count total borrowed books
 $countStmt = $pdo->prepare("
     SELECT COUNT(*) FROM emprunts
     WHERE id_user = ? AND loan_status IN ('BORROWED', 'OVERDUE')
@@ -40,10 +40,8 @@ $totalPages = ceil($totalBooks / $limit);
 <main class="content">
     <h2>📚 My Borrowed Books</h2>
 
-    <!-- Back Button -->
     <a href="index.php" class="back-btn">🔙 Back to Library</a>
 
-    <!-- Books Table -->
     <table class="books-table">
         <tr>
             <th>Title</th>
@@ -75,7 +73,6 @@ $totalPages = ceil($totalBooks / $limit);
         <?php endif; ?>
     </table>
 
-    <!-- Pagination -->
     <div class="pagination">
         <?php if ($page > 1): ?>
             <a href="?page=<?= $page - 1 ?>" class="prev">← Previous</a>
@@ -89,7 +86,7 @@ $totalPages = ceil($totalBooks / $limit);
     </div>
 </main>
 
-<!-- 📌 Return Confirmation Modal -->
+
 <div id="returnModal" class="modal hidden">
     <div class="modal-content">
         <span class="close" onclick="closeReturnModal()">&times;</span>

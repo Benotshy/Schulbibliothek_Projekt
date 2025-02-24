@@ -23,12 +23,10 @@ unset($_SESSION['errors']); // Clear errors after displaying them
       <form action="../controllers/AuthController.php" method="POST">
         <h1>Login</h1>
         <div class="input-box">
-          <!-- <label for="email">Enter your email:</label> -->
           <input type="text" id="email" name="email" placeholder="youremail@gmail.com" required>
           <i class='bx bxs-user'></i>
         </div>
         <div class="input-box">
-          <!-- <label for="pwd">Enter your password:</label> -->
           <input type="password" id="pwd" name="pwd" placeholder="password" required>
           <i class='bx bxs-lock'></i>
         </div>
@@ -58,7 +56,7 @@ unset($_SESSION['errors']); // Clear errors after displaying them
             class="<?= isset($_SESSION['errors']['email']) ? 'error-input' : '' ?>">
           <i class='bx bx-envelope'></i>
 
-          <!-- show error message below input -->
+          <!-- fro showing error message below input -->
           <?php if (isset($_SESSION['errors']['email'])): ?>
             <p class="error-text"><?= $_SESSION['errors']['email']; ?></p>
           <?php endif; ?>

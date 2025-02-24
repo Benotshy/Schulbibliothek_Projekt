@@ -123,7 +123,7 @@ $totalPages = ceil($totalBooks / $limit);
     <h3>Edit Book</h3>
     <form action="../controllers/BookController.php" method="POST">
       <input type="hidden" id="edit_id" name="id_book">
-      <input type="hidden" name="update_book" value="1"> <!-- ✅ Ensures Controller Detects Edit -->
+      <input type="hidden" name="update_book" value="1"> 
 
       <label>Title:</label>
       <input type="text" id="edit_title" name="title" required>
@@ -184,9 +184,4 @@ $totalPages = ceil($totalBooks / $limit);
     };
   });
 </script>
-
-
-<script src="../assets/js/filter.js"></script>
-<script src="../assets/js/main.js"></script>
-
 <?php include 'partials/footer.php'; ?>

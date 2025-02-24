@@ -24,21 +24,33 @@ if (isset($_POST['submit'])) {
 }
 
 if (isset($_GET['delete'])) {
-    $user_id = $_GET['delete'];
+  $user_id = $_GET['delete'];
 
-    // Prevent admin from deleting themselves
-    if ($user_id == $_SESSION['user_id']) {
-        header("Location: ../views/users.php?error=You cannot delete yourself.");
-        exit();
-    }
+  // prevent admin from deleting themselves
+  if ($user_id == $_SESSION['user_id']) {
+      header("Location: ../views/users.php?error=" . urlencode("You cannot delete yourself."));
+      exit();
+  }
 
-    try {
-        $stmt = $pdo->prepare("DELETE FROM users WHERE id_user = ?");
-        $stmt->execute([$user_id]);
+  try {
+      // check if the user has borrowed books
+      $stmt = $pdo->prepare("SELECT COUNT(*) FROM emprunts WHERE id_user = ? AND loan_status = 'BORROWED'");
+      $stmt->execute([$user_id]);
+      $borrowedBooks = $stmt->fetchColumn();
 
-        header("Location: ../views/users.php?success=User deleted successfully.");
-        exit();
-    } catch (PDOException $e) {
-        die("Error deleting user: " . $e->getMessage());
-    }
+      if ($borrowedBooks > 0) {
+          header("Location: ../views/users.php?error=" . urlencode("This user has borrowed books and cannot be deleted."));
+          exit();
+      }
+
+      // proceed with deletion if no borrowed books
+      $stmt = $pdo->prepare("DELETE FROM users WHERE id_user = ?");
+      $stmt->execute([$user_id]);
+
+      header("Location: ../views/users.php?success=" . urlencode("User deleted successfully."));
+      exit();
+  } catch (PDOException $e) {
+      header("Location: ../views/users.php?error=" . urlencode("Error deleting user: " . $e->getMessage()));
+      exit();
+  }
 }
