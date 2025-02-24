@@ -42,14 +42,13 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //Count total users for pagination
 $countQuery = "SELECT COUNT(*) FROM users u WHERE u.id_user != ? $searchQuery";
 $countStmt = $pdo->prepare($countQuery);
-$countStmt->execute(array_slice($params, 0, count($params))); // ✅ Only using required params
+$countStmt->execute(array_slice($params, 0, count($params)));
 $totalUsers = $countStmt->fetchColumn();
-$totalPages = ($totalUsers > 0) ? ceil($totalUsers / $limit) : 1; // ✅ Avoid division by zero
+$totalPages = ($totalUsers > 0) ? ceil($totalUsers / $limit) : 1; //avoid division by zero
 ?>
 <main class="content">
   <h2>👤 Manage Users</h2>
 
-  <!-- ✅ Display Pop-up Message (Success/Error) -->
   <?php if (isset($_GET['message'])): ?>
     <div class="popup <?= ($_GET['type'] == 'error') ? 'error' : 'success' ?>">
       <?= htmlspecialchars($_GET['message']) ?>
@@ -57,14 +56,13 @@ $totalPages = ($totalUsers > 0) ? ceil($totalUsers / $limit) : 1; // ✅ Avoid d
     </div>
   <?php endif; ?>
 
-  <!-- Search Bar -->
   <form action="users.php" method="GET" class="search-bar">
     <input type="text" name="search" placeholder="Search users..."
       value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
     <button type="submit">🔍 Search</button>
   </form>
 
-  <!-- Users Table -->
+
   <table class="users-table">
     <tr>
       <th>Name</th>
@@ -109,7 +107,7 @@ $totalPages = ($totalUsers > 0) ? ceil($totalUsers / $limit) : 1; // ✅ Avoid d
   </table>
 </main>
 
-<!-- ✅ JavaScript to handle click on borrowed books count -->
+<!-- javaScript to handle click on borrowed books count -->
 <script>
   function confirmDelete(userId) {
       if (confirm("Are you sure you want to delete this user?")) {
@@ -117,6 +115,4 @@ $totalPages = ($totalUsers > 0) ? ceil($totalUsers / $limit) : 1; // ✅ Avoid d
       }
   }
 </script>
-
-<script src="../assets/js/main.js"></script>
 <?php include 'partials/footer.php'; ?>

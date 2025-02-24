@@ -1,22 +1,22 @@
 <?php
 session_start();
-include 'partials/sidebar.php'; // ✅ Sidebar already contains <html>, <head>, <body>
+include 'partials/sidebar.php';
 
 require_once '../includes/dbh.inc.php';
 require '../includes/statusUpdate.php';
 
-$isLoggedIn = isset($_SESSION['user_id']); // Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_id']);
 
-// ✅ Handle pagination
-$limit = 8; // Number of books per page
+
+$limit = 8;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// ✅ Handle search & filter functionality
+// handle search & filter functionality
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $filterAvailable = isset($_GET['available']) && $_GET['available'] === 'true';
 
-// ✅ Fix: Ensuring WHERE clause is correctly structured before ORDER BY
+
 $query = "SELECT books.*, emprunts.loan_status
           FROM books
           LEFT JOIN emprunts ON books.id_book = emprunts.id_book";
@@ -37,13 +37,13 @@ if (!empty($conditions)) {
   $query .= " WHERE " . implode(" AND ", $conditions);
 }
 
-// ✅ Fix: ORDER BY comes after WHERE clause, ensuring proper SQL execution
+
 $query .= " ORDER BY FIELD(emprunts.loan_status, 'OVERDUE', 'BORROWED') DESC LIMIT $limit OFFSET $offset";
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ Count total books for pagination
+// count total books for pagination
 $countQuery = "SELECT COUNT(*) FROM books";
 if (!empty($conditions)) {
   $countQuery .= " WHERE " . implode(" AND ", $conditions);
@@ -77,10 +77,7 @@ $totalPages = ceil($totalBooks / $limit);
             alt="Book Cover">
           <h3><?= htmlspecialchars($book['title']) ?></h3>
           <p><?= htmlspecialchars($book['author']) ?></p>
-
-          <!-- ✅ Fix: Correctly displaying OVERDUE status with styled button -->
           <?php if ($book['loan_status'] == 'OVERDUE'): ?>
-            <!-- <span class="status overdue">Overdue</span> -->
             <button class="overdue-btn" disabled>Overdue</button>
           <?php elseif ($book['loan_status'] == 'BORROWED'): ?>
             <button class="borrowed-btn" disabled>Borrowed</button>
@@ -88,7 +85,7 @@ $totalPages = ceil($totalBooks / $limit);
             <?php if (!$isLoggedIn): ?>
               <button type="button" class="borrow-btn available-btn" onclick="redirectToLogin()"></button>
             <?php else: ?>
-              <!-- ✅ Logged-in Users: Show Confirmation Before Borrowing -->
+              <!-- show Confirmation Before Borrowing -->
               <form action="../controllers/BorrowController.php" method="POST"
                 onsubmit="return confirm('Are you sure you want to borrow this book?');">
                 <input type="hidden" name="book_id" value="<?= $book['id_book'] ?>">
@@ -115,8 +112,8 @@ $totalPages = ceil($totalBooks / $limit);
   </div>
 </main>
 
-<script src="../assets/js/filter.js"></script>
-<script src="../assets/js/main.js"></script>
+
+
 <script>
   function redirectToLogin() {
     alert("You need to log in to borrow a book.");
