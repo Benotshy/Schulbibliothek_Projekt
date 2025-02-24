@@ -1,3 +1,9 @@
+<?php
+session_start();
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']); // Clear errors after displaying them
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../assets/css/auth.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <title>Document</title>
+  <title>Schulbibliothek</title>
 </head>
 
 <body>
@@ -36,30 +42,36 @@
     <div class="form-box register">
       <form action="../controllers/UserController.php" method="POST">
         <h1>Registration</h1>
-        <!-- <label for="first_name" id="first_name">Enter your first name:</label> -->
-         <div class="input-box">
-        <input type="text" name="first_name" id="first_name" placeholder="first_name" required>
-        <i class='bx bx-user-circle' ></i>
-        </div>
-        <!-- <label for="last_name" id="last_name">Enter your last name:</label> -->
-         <div class="input-box">
-        <input type="text" name="last_name" id="last_name" placeholder="last-name" required>
-        <i class='bx bx-user-circle' ></i>
-        </div>
-        <!-- <label for="email" id="email">Enter your email:</label> -->
+
         <div class="input-box">
-          <!-- <label for="email">Enter your email:</label> -->
-          <input type="text" id="email" name="email" placeholder="youremail@gmail.com" required>
-          <i class='bx bx-envelope' ></i>
+          <input type="text" name="first_name" id="first_name" placeholder="First Name" required>
+          <i class='bx bx-user-circle'></i>
         </div>
+
         <div class="input-box">
-          <!-- <label for="pwd">Enter your password:</label> -->
-          <input type="password" id="pwd" name="pwd" placeholder="password" required>
+          <input type="text" name="last_name" id="last_name" placeholder="Last Name" required>
+          <i class='bx bx-user-circle'></i>
+        </div>
+
+        <div class="input-box">
+          <input type="text" name="email" id="email" placeholder="youremail@gmail.com" required
+            class="<?= isset($_SESSION['errors']['email']) ? 'error-input' : '' ?>">
+          <i class='bx bx-envelope'></i>
+
+          <!-- show error message below input -->
+          <?php if (isset($_SESSION['errors']['email'])): ?>
+            <p class="error-text"><?= $_SESSION['errors']['email']; ?></p>
+          <?php endif; ?>
+        </div>
+
+        <div class="input-box">
+          <input type="password" name="pwd" id="pwd" placeholder="Password" required>
           <i class='bx bxs-lock'></i>
         </div>
-        <button type="submit" name="submit" class="btn">Register</button>
 
+        <button type="submit" name="submit" class="btn">Register</button>
       </form>
+
     </div>
     <div class="toggle-box">
       <div class="toggle-panel toggle-left">

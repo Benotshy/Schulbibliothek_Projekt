@@ -240,6 +240,15 @@ h2 {
   font-size: 14px;
   transition: background 0.3s ease-in-out;
 }
+.overdue-btn {
+  background-color: #ffc300;
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  font-weight: bold;
+  cursor: not-allowed;
+  border-radius: 5px;
+}
 
 .borrow-btn:hover {
   background: #3f8c76;
@@ -549,4 +558,14 @@ h2 {
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
+.guest-guide{
+  display: flex;
+  justify-content: center;
+  color: #000000;
+  text-decoration: underline;
+  opacity: 0.7;
+  margin-right: 100px;
+  margin-top: -20px;
+  font-size: 14px;
 
+}

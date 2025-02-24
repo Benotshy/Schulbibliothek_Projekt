@@ -12,16 +12,16 @@ class User {
     $stmt = $this->db->prepare("INSERT INTO users (first_name, last_name, pwd, email, role) VALUES (:first_name, :last_name, :pwd, :email, 'student')");
     $stmt->bindValue(':first_name', $first_name);
     $stmt->bindValue(':last_name', $last_name);
-    $stmt->bindValue(':pwd', $pwd); // ✅ Using 'pwd' instead of 'password'
+    $stmt->bindValue(':pwd', $pwd);
     $stmt->bindValue(':email', $email);
-    return $stmt->execute(); // Return true if successful
+    return $stmt->execute();
   }
 
   public function getUserByEmail($email) {
     $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->bindValue(':email', $email);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch user as an associative array
+    return $stmt->fetch(PDO::FETCH_ASSOC); // return the result as an associative array
   }
 }
 

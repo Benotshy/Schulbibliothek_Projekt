@@ -7,22 +7,19 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 require_once '../includes/dbh.inc.php';
 
-// ✅ New Feature: Handle Book Search
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
+$search = isset($_GET['search']) ? trim($_GET['search']) : ''; // trim helps prevent errors caused by accidental spaces.
 if (!empty($search)) {
-  // Search books by title or author
   $stmt = $pdo->prepare("SELECT * FROM books WHERE title LIKE ? OR author LIKE ?");
-  $stmt->execute(["%$search%", "%$search%"]);
+  $stmt->execute(["%$search%", "%$search%"]); //'%search%' allows partial matching, so users don’t have to type the exact title or author name.
 } else {
-  // Fetch all books if no search term is provided
   $stmt = $pdo->prepare("SELECT * FROM books");
   $stmt->execute();
 }
 
-$books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$books = $stmt->fetchAll(PDO::FETCH_ASSOC); //returns results as associative arrays
 
-// ✅ Handle Editing a Book (Prevent Duplicate Issue)
+// Editing a Book
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
   $id = $_POST['id_book'];
   $title = $_POST['title'];
@@ -35,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
   }
 
   try {
-    // 🔍 Check if Book Exists Before Updating
+    // checking if the books exists before modifying it
     $checkStmt = $pdo->prepare("SELECT id_book FROM books WHERE id_book = ?");
     $checkStmt->execute([$id]);
 
@@ -44,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
       exit();
     }
 
-    // 🛠 FIX: Properly Update the Book Instead of Inserting a New One
     $stmt = $pdo->prepare("UPDATE books SET title = ?, author = ?, book_status = ? WHERE id_book = ?");
     $stmt->execute([$title, $author, $book_status, $id]);
 
@@ -56,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_book'])) {
 }
 
 
-
+//adding a book
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['update_book'])) {
   $title = $_POST['title'];
   $author = $_POST['author'];
@@ -79,9 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['update_book'])) {
 }
 
 
-
+//editing a book
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-  $book_id = $_GET['delete']; // ✅ Make sure we are using the correct variable
+  $book_id = $_GET['delete'];
 
   try {
     // 🔍 Check if the book is currently borrowed
