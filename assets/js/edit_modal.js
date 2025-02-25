@@ -1,4 +1,4 @@
-// Function to open the edit modal and fill in book details
+// function to open the edit modal and fill in book details
 function openEditModal(id, title, author, status) {
   document.getElementById("edit_id").value = id;
   document.getElementById("edit_title").value = title;
@@ -11,4 +11,3 @@ function openEditModal(id, title, author, status) {
 function closeEditModal() {
   document.getElementById("editModal").style.display = "none";
 }
-

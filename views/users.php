@@ -97,9 +97,15 @@ $totalPages = ($totalUsers > 0) ? ceil($totalUsers / $limit) : 1; //avoid divisi
             <?= ($user['overdue_count'] > 0) ? "<span class='overdue-count'>" . $user['overdue_count'] . " overdue book(s)</span>" : "No overdue books"; ?>
           </td>
           <td>
-            <button class="delete-btn" onclick="confirmDelete(<?= $user['id_user'] ?>)">
+          <?php if ($user['role'] == 'admin'): ?>
+            <button class="delete-btn" style ="display:none;" onclick="confirmDelete(<?= $user['id_user'] ?>)">
               ❌ Delete
             </button>
+          <?php else: ?>
+            <button class="delete-btn" onclick="confirmDelete(<?= $user['id_user'] ?>)">
+            <i class='bx bx-trash'></i> Delete
+            </button>
+            <?php endif; ?>
           </td>
         </tr>
       <?php endforeach; ?>

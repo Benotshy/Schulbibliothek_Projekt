@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("JavaScript loaded!"); // Debugging
-
-  // Tooltip for borrowed books
+  // tooltip for borrowed books
   const borrowedBookElements = document.querySelectorAll(".borrowed-books");
 
   borrowedBookElements.forEach(element => {
@@ -26,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  // Borrow Confirmation Popup
+  // borrow Confirmation Popup
   const borrowButtons = document.querySelectorAll(".borrow-btn");
 
   if (!borrowButtons.length) {
@@ -96,9 +94,4 @@ document.addEventListener("DOMContentLoaded", function () {
           selectedForm = null;
       }
   });
-
-  console.log("Borrow popup script initialized successfully.");
 });
-
-
-

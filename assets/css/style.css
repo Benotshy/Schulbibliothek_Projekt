@@ -1,6 +1,4 @@
-/* ==========================
-   General Page Styles
-   ========================== */
+
 
 *,
 *::before,
@@ -18,13 +16,10 @@ body {
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
 }
-
-/* ==========================
-     Sidebar Styles
-     ========================== */
+/* siebar styling */
 .sidebar {
   width: 260px;
-  background: #f8f9fa; /* Light background */
+  background: #f8f9fa;
   color: #333;
   padding: 20px;
   position: fixed;
@@ -37,7 +32,7 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* Sidebar Logo */
+
 .sidebar-logo {
   font-size: 22px;
   font-weight: bold;
@@ -47,7 +42,7 @@ body {
   color: #3f8c76;
 }
 
-/* Credits Section */
+
 .credits {
   font-size: 14px;
   text-align: center;
@@ -55,7 +50,7 @@ body {
   margin-top: 5px;
 }
 
-/* User Profile */
+
 .user-profile {
   text-align: center;
   margin: 20px 0;
@@ -100,19 +95,19 @@ body {
   font-size: 18px;
 }
 
-/* Active link (Dashboard or selected) */
+/* active link */
 .sidebar-nav a.active {
   background: #e0e0e0;
   color: rgb(0, 0, 0);
 }
 
-/* Hover effect */
+
 .sidebar-nav a:hover {
   background: #3f8c76;
   color: white;
 }
 
-/* Filter Section */
+
 .filter-section {
   padding: 15px;
   background: #eef2f5;
@@ -137,7 +132,7 @@ body {
   margin-right: 8px;
 }
 
-/* Logout Link */
+
 .sidebar-nav a.logout {
   margin-top: 20px;
   font-weight: bold;
@@ -147,10 +142,7 @@ body {
   background: #dc3545;
   color: white;
 }
-
-/* ==========================
-     Main Content Styles
-     ========================== */
+/* main content styling */
 .content {
   margin-left: 260px;
   padding: 40px;
@@ -165,9 +157,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* ==========================
-     Search Bar
-     ========================== */
+/* search bar styling */
 .search-bar {
   display: flex;
   justify-content: center;
@@ -191,12 +181,7 @@ h2 {
   margin-left: 20px;
 }
 
-/* ==========================
-     Book Cards (Grid View)
-     ========================== */
-/* ==========================
-     Book Display Styles (Index Page)
-     ========================== */
+/* Book display style */
 .book-container {
   display: flex;
   justify-content: center;
@@ -227,9 +212,7 @@ h2 {
   color: #666;
 }
 
-/* ==========================
-     Borrow Button & Status Styling
-     ========================== */
+
 .borrow-btn {
   background: #3f8c76;
   color: white;
@@ -262,9 +245,7 @@ h2 {
   content: "Borrow Now";
 }
 
-/* ==========================
-     Borrow Confirmation Popup
-     ========================== */
+/* borrow pop-up */
 .book-container {
   display: flex;
   justify-content: center;
@@ -291,9 +272,7 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* ==========================
-     Borrow Button & Hover Effect
-     ========================== */
+
 .borrow-btn {
   background: #3f8c76;
   color: white;
@@ -328,9 +307,7 @@ h2 {
   content: "Borrow";
 }
 
-/* ==========================
-     Borrow Confirmation Popup (Book Cards)
-     ========================== */
+/* borrow confirmation pop-up */
 .book-container {
   display: flex;
   justify-content: center;
@@ -371,7 +348,7 @@ h2 {
   margin-top: -12px;
 }
 
-/* Default Available Button */
+
 .available-btn {
   background: #28a745;
   color: white;
@@ -397,7 +374,7 @@ h2 {
   content: "Borrow";
 }
 
-/* Borrowed Button - No Hover Effect */
+
 .borrowed-btn {
   background: #dc3545;
   color: white;
@@ -410,9 +387,7 @@ h2 {
   opacity: 0.7;
 }
 
-/* ==========================
-     Borrow Button & Hover Effect (Alternate)
-     ========================== */
+
 .borrow-btn {
   background: #3f8c76;
   color: white;
@@ -447,9 +422,7 @@ h2 {
   content: "Unavailable";
 }
 
-/* ==========================
-     Pagination
-     ========================== */
+/* pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -479,9 +452,6 @@ h2 {
   font-weight: 500;
 }
 
-/* ==========================
-     Footer Styles
-     ========================== */
 .footer {
   width: 100%;
   background: #3f8c76;
@@ -496,7 +466,7 @@ h2 {
   /* margin-left: 75px; */
 }
 
-/* POPUP CSS */
+/* pop-up css */
 .borrow-popup {
   display: none;
   position: fixed;
@@ -545,9 +515,7 @@ h2 {
   color: white;
 }
 
-/* ==========================
-   Overlay for Popup
-   ========================== */
+
 .borrow-overlay {
   display: none;
   position: fixed;
@@ -568,4 +536,23 @@ h2 {
   margin-top: -20px;
   font-size: 14px;
 
+}
+
+.delete-btn{
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.3s ease-in-out;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.delete-btn:hover {
+  background: #dc3545;
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
 }

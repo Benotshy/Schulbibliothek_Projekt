@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'partials/sidebar.php'; // ✅ Sidebar already contains <html>, <head>, <body>
+include 'partials/sidebar.php';
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   header("Location: index.php?error=Access Denied");
   exit();
@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 require_once '../includes/dbh.inc.php';
 
 // Fetch all books with pagination and search functionality
-$limit = 8; // Books per page
+$limit = 8;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
@@ -82,7 +82,6 @@ $totalPages = ceil($totalBooks / $limit);
     <?php endforeach; ?>
   </table>
 
-  <!-- Pagination -->
   <div class="pagination">
     <?php if ($page > 1): ?>
       <a href="?page=<?= $page - 1 ?>&search=<?= urlencode($_GET['search'] ?? '') ?>" class="prev">← Previous</a>
@@ -96,7 +95,6 @@ $totalPages = ceil($totalBooks / $limit);
   </div>
 </main>
 
-<!-- Add Book Modal -->
 <div id="addModal" class="modal hidden">
   <div class="modal-content">
     <span class="close" onclick="closeAddModal()">&times;</span>
@@ -123,7 +121,7 @@ $totalPages = ceil($totalBooks / $limit);
     <h3>Edit Book</h3>
     <form action="../controllers/BookController.php" method="POST">
       <input type="hidden" id="edit_id" name="id_book">
-      <input type="hidden" name="update_book" value="1"> 
+      <input type="hidden" name="update_book" value="1">
 
       <label>Title:</label>
       <input type="text" id="edit_title" name="title" required>
@@ -159,17 +157,15 @@ $totalPages = ceil($totalBooks / $limit);
       }
     }
 
-    // Open Add Book Modal
     window.openAddModal = function () {
       showModal('addModal');
     };
 
-    // Close Add Book Modal
     window.closeAddModal = function () {
       hideModal('addModal');
     };
 
-    // Open Edit Book Modal
+    //open Edit Book Modal
     window.openEditModal = function (id, title, author, status) {
       document.getElementById('edit_id').value = id;
       document.getElementById('edit_title').value = title;
@@ -178,7 +174,7 @@ $totalPages = ceil($totalBooks / $limit);
       showModal('editModal');
     };
 
-    // Close Edit Book Modal
+    //close Edit Book Modal
     window.closeEditModal = function () {
       hideModal('editModal');
     };

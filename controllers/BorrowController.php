@@ -13,31 +13,31 @@ $book_id = $_POST['book_id'];
 
 $borrowModel = new Borrow($pdo);
 
-// ✅ Step 1: Check if the user has any overdue books
+//check if the user has any overdue books
 if ($borrowModel->isOverdue($user_id)) {
     echo "<script>alert('Please contact your admin.'); window.location.href = '../views/index.php';</script>";
     exit();
 }
 
-// ✅ Step 2: Check if the user has reached the borrowing limit
+// check if the user has reached the borrowing limit
 if ($borrowModel->hasReachedBorrowLimit($user_id)) {
     header("Location: ../views/index.php?error=You can only borrow up to 3 books.");
     exit();
 }
 
-// ✅ Step 3: Check if the book is available
+// check if the book is available
 if (!$borrowModel->isBookAvailable($book_id)) {
     header("Location: ../views/index.php?error=Book is currently unavailable.");
     exit();
 }
 
-// ✅ Step 4: Check if the user has already borrowed this book
+//check if the user has already borrowed this book
 if ($borrowModel->alreadyBorrowedBook($user_id, $book_id)) {
     header("Location: ../views/index.php?error=You already borrowed this book.");
     exit();
 }
 
-// ✅ Step 5: Borrow the book
+//borrow the book
 if ($borrowModel->borrowBook($user_id, $book_id)) {
     header("Location: ../views/index.php?success=Book borrowed successfully.");
     exit();

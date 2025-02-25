@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_book_id'])) {
 
     $borrowModel = new Borrow($pdo);
 
-    // ✅ Attempt to return the book
+    // attempt to return the book
     if ($borrowModel->returnBook($user_id, $book_id)) {
         header("Location: ../views/index.php?success=Book returned successfully.");
         exit();
